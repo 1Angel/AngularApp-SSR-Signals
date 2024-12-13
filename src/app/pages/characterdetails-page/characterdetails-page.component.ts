@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { CharacterService } from '../../services/character.service';
 import { ActivatedRoute } from '@angular/router';
 import { Character } from '../../models/Character-response-interface';
 import { switchMap, tap } from 'rxjs';
 import { DetailsCardComponent } from "../../components/details-card/details-card.component";
 import { Meta, Title } from '@angular/platform-browser';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-characterdetails-page',
@@ -19,6 +20,7 @@ export class CharacterdetailsPageComponent implements OnInit{
   private readonly route = inject(ActivatedRoute);
   private readonly meta = inject(Meta);
   private readonly title = inject(Title);
+  private readonly destroyRef = inject(DestroyRef);
   
   character = signal<Character | undefined>(undefined);
   
@@ -34,6 +36,7 @@ export class CharacterdetailsPageComponent implements OnInit{
         this.meta.updateTag({name: "og:description", content: `Details page of character ${results.name}`});
         this.meta.updateTag({name: "og:image", content: `${results.image}`})
       }),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe(response=>{
       this.character.set(response)
     })
