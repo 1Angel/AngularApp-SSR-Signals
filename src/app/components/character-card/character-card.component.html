@@ -1,9 +1,10 @@
 <div class="col">
   <div class="card h-100" [routerLink]="['/details',character().id]">
-    <img [src]="character().image" class="card-img-top" [alt]="character().name">
+    <img [ngSrc]="character().image" class="card-img-top" [alt]="character().name" width="700" height="400">
     <div class="card-body">
       <h5 class="card-title">{{character().name}}</h5>
       <p class="card-text">Status: {{character().status}}</p>
+      <p class="card-text">episodes where this character appears: {{episodesAppears()}}</p>
     </div>
   </div>
 </div>

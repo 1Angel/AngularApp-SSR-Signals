@@ -10,6 +10,6 @@ import { DatePipe } from '@angular/common';
 })
 export class DetailsCardComponent {
 
-  character = input.required<Character | undefined>();
+  character = input<Character>();
 
 }
